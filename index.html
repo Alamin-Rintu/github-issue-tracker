@@ -19,22 +19,47 @@
   </head>
   <body>
     <main>
-      <div class="hero bg-base-200 min-h-screen">
-        <div class="hero-content flex-col lg:flex-row-reverse">
-          <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-            <div class="card-body">
-              <fieldset class="fieldset">
-                <label class="label">Email</label>
-                <input type="email" class="input" placeholder="Email" />
-                <label class="label">Password</label>
-                <input type="password" class="input" placeholder="Password" />
-                <div><a class="link link-hover">Forgot password?</a></div>
-                <button class="btn btn-neutral mt-4">Login</button>
-              </fieldset>
-            </div>
+      <section class="flex justify-center items-center flex-col space-y-4 mt-10">
+        <div class="text-center space-y-2">
+          <img class="mx-auto" src="assets/github-logo.png" alt="" />
+          <h2 class="text-[24px] font-semibold">GitHub Issues Tracker</h2>
+          <p class="text-[#64748B] text-[16px]">
+            Sign in to manage your issues
+          </p>
+        </div>
+
+        <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+          <div class="card-body">
+            <fieldset class="fieldset">
+              <label class="label text-[16px] font-medium">Username</label>
+              <input id="user-name" type="text" class="input" placeholder="Enter Username" />
+              <div><a class="link link-hover">Default: admin</a></div>
+              <label class="label text-[16px] font-medium">Password</label>
+              <input id="password"
+                type="password"
+                class="input"
+                placeholder="Enter Password"
+              />
+              <div><a class="link link-hover">Default: admin123</a></div>
+              <button id="sign-in-btn" class="btn btn-primary mt-4">Sign In</button>
+            </fieldset>
           </div>
         </div>
-      </div>
+
+        <div class="flex w-96 flex-col">
+          <div class="divider">OR</div>
+        </div>
+
+        <div class="text-center w-96">
+          <p class="font-semibold">Demo Credentials</p>
+          <div class="bg-white shadow-md rounded-lg p-4 mt-2">
+            <p>Username: <span class="font-semibold">admin</span></p>
+            <p>Password: <span class="font-semibold">admin123</span></p>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <script src="script/index.js"></script>
   </body>
 </html>
