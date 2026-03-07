@@ -93,7 +93,9 @@
             <img class="w-[27px]" src="assets/Aperture.png" alt="" />
           </div>
           <div>
-            <h3 class="font-semibold text-[20px]">50 Issues</h3>
+            <h3 class="font-semibold text-[20px]">
+              <span id="total-issue"></span> Issues
+            </h3>
             <p class="text-[20px] text-[#64748B]">
               Track and manage your project issues
             </p>
@@ -114,13 +116,34 @@
         </div>
       </div>
       <!-- card section -->
+      <!-- loading spinner -->
+      <div id="loadingSpinner" class="hidden flex justify-center items-center">
+        <span class="loading loading-dots loading-xl"></span>
+      </div>
       <section
         id="card-container"
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 bg-gray-100 p-3 rounded-xl"
       >
         <!-- card -->
-
       </section>
+
+      <!-- modal -->
+
+      <!-- Open the modal using ID.showModal() method -->
+      <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+      <dialog id="issue_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <div id="issue-container">
+
+          </div>
+
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn btn-primary">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </main>
 
     <script src="script/home.js"></script>
