@@ -59,6 +59,7 @@
               </g>
             </svg>
             <input
+              id="search-input"
               type="search"
               placeholder="Search issues..."
               class="w-full sm:w-64"
@@ -115,11 +116,11 @@
           </p>
         </div>
       </div>
-      <!-- card section -->
       <!-- loading spinner -->
       <div id="loadingSpinner" class="hidden flex justify-center items-center">
         <span class="loading loading-dots loading-xl"></span>
       </div>
+      <!-- card section -->
       <section
         id="card-container"
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5 bg-gray-100 p-3 rounded-xl"
@@ -133,9 +134,7 @@
       <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
       <dialog id="issue_modal" class="modal modal-bottom sm:modal-middle">
         <div class="modal-box">
-          <div id="issue-container">
-
-          </div>
+          <div id="issue-container"></div>
 
           <div class="modal-action">
             <form method="dialog">

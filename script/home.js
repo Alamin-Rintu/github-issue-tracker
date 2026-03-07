@@ -144,4 +144,21 @@ const displayIssueDetail = (issue) => {
   document.getElementById("issue_modal").showModal();
 };
 
+/** search**/
+const searchInput = document.getElementById("search-input");
+
+searchInput.addEventListener("input", (event) => {
+  const value = event.target.value.toLowerCase();
+
+  fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+    .then((res) => res.json())
+    .then((issues) => {
+      const allIssues = issues.data;
+      const filterIssues = allIssues.filter((issue) =>
+        issue.title.toLowerCase().includes(value),
+      );
+      displayIssues(filterIssues);
+    });
+});
+
 loadIssues();
