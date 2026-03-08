@@ -1,16 +1,48 @@
 const loadingSpinner = document.getElementById("loadingSpinner");
 const totalIssue = document.getElementById("total-issue");
+let allIssuesData = [];
+const openBtn = document.getElementById("open-btn");
+const closedBtn = document.getElementById("closed-btn");
+const allBtn = document.getElementById("all-btn");
 
 const loadIssues = () => {
   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
   showLoading();
+
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      displayIssues(data.data);
+      allIssuesData = data.data;
+      displayIssues(allIssuesData);
       hideLoading();
     });
 };
+
+const setActive = (btn) => {
+  [openBtn, closedBtn, allBtn].forEach((b) =>
+    b.classList.remove("btn-primary"),
+  );
+  btn.classList.add("btn-primary");
+};
+
+openBtn.addEventListener("click", () => {
+  setActive(openBtn);
+  const openIssues = allIssuesData.filter((issue) => issue.status === "open");
+  displayIssues(openIssues);
+});
+
+closedBtn.addEventListener("click", () => {
+  setActive(closedBtn);
+  const closedIssues = allIssuesData.filter(
+    (issue) => issue.status === "closed",
+  );
+  displayIssues(closedIssues);
+});
+
+allBtn.addEventListener("click", () => {
+  setActive(allBtn);
+  displayIssues(allIssuesData);
+});
 
 const showLoading = () => {
   loadingSpinner.classList.remove("hidden");
@@ -26,50 +58,58 @@ const displayIssues = (issues) => {
   const cardContainer = document.getElementById("card-container");
   cardContainer.innerHTML = "";
   totalIssue.innerText = issues.length;
+
   issues.forEach((issue) => {
     const createDiv = document.createElement("div");
-    // labels loop
+
+    const borderColor =
+      issue.status === "open"
+        ? "border-t-4 border-green-500"
+        : "border-t-4 border-purple-500";
+
+    // Labels
     const labelsHTML = issue.labels
       .map(
-        (label) =>
-          `<div class="badge badge-soft badge-warning text-xs sm:text-sm">
-            ${label}
-          </div>`,
+        (label) => `
+        <div class="badge badge-soft badge-warning text-xs sm:text-sm">
+          ${label}
+        </div>
+      `,
       )
       .join("");
+
     createDiv.innerHTML = `
-            <div onclick="loadIssueDetail(${issue.id})" class="card bg-white p-4 space-y-3 w-full">
-          <div class="flex justify-between items-center">
-            <div class="badge badge-soft badge-secondary text-xs sm:text-sm">
-              ${issue.priority}
-            </div>
-          </div>
+      <div onclick="loadIssueDetail(${issue.id})" class="card ${borderColor} bg-white p-4 space-y-3 w-full rounded-md shadow-sm">
 
-          <h3 class="text-sm sm:text-[14px] font-semibold">
-            ${issue.title}
-          </h3>
-
-          <p class="text-xs sm:text-[12px] text-gray-500">
-            ${issue.description}
-          </p>
-
-          <!-- Badges -->
-
-          <!-- Labels -->
-          <div class="flex flex-wrap gap-2">
-            ${labelsHTML}
-          </div>
-          <div class="border-b border-gray-200 my-3"></div>
-          <div
-            class="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0 text-xs sm:text-[12px] text-gray-500"
-          >
-            <span>#1 by <span> ${issue.author}</span></span>
-            <span>${issue.createdAt}</span>
+        <div class="flex justify-between items-center">
+          <div class="badge badge-soft badge-secondary text-xs sm:text-sm">
+            ${issue.priority}
           </div>
         </div>
+
+        <h3 class="text-sm sm:text-[14px] font-semibold">
+          ${issue.title}
+        </h3>
+
+        <p class="text-xs sm:text-[12px] text-gray-500">
+          ${issue.description}
+        </p>
+
+        <div class="flex flex-wrap gap-2">
+          ${labelsHTML}
+        </div>
+
+        <div class="border-b border-gray-200 my-3"></div>
+
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>#${issue.id} by ${issue.author}</span>
+          <span>${issue.createdAt}</span>
+        </div>
+
+      </div>
     `;
 
-    cardContainer.append(createDiv);
+    cardContainer.appendChild(createDiv);
   });
 };
 
@@ -148,16 +188,13 @@ const displayIssueDetail = (issue) => {
 const searchInput = document.getElementById("search-input");
 
 searchInput.addEventListener("input", (event) => {
-  const value = event.target.value.toLowerCase();
+  const value = event.target.value;
 
-  fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
+  fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${value}`)
     .then((res) => res.json())
-    .then((issues) => {
-      const allIssues = issues.data;
-      const filterIssues = allIssues.filter((issue) =>
-        issue.title.toLowerCase().includes(value),
-      );
-      displayIssues(filterIssues);
+    .then((data) => {
+      const issues = data.data;
+      displayIssues(issues);
     });
 });
 
